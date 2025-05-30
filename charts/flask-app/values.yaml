@@ -1,0 +1,19 @@
+image:
+  repository: <your-dockerhub-username>/flask-app
+  tag: latest
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 200m
+    memory: 256Mi
+
+service:
+  port: 5000
+
+ingress:
+  enabled: true
+  host: flask.local
+touc

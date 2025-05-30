@@ -1,0 +1,4 @@
+apiVersion: v2
+name: flask-app
+description: A minimal Flask web app
+version: 0.1.0
