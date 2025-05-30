@@ -48,21 +48,30 @@ jobs:
     #   run: |
     #     helm upgrade --install flask-app ./charts/flask-app --namespace default
 
-    - name: Install Minikube
+    # - name: Install Minikube
+    #   run: |
+    #     curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+    #     sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+    - name: Install and Configure Minikube
       run: |
         curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
         sudo install minikube-linux-amd64 /usr/local/bin/minikube
-
-    - name: Start Minikube
-      run: |
         minikube start --driver=docker --wait=all
         minikube addons enable ingress
+        minikube update-context
 
-    - name: Configure kubectl to use Minikube context
-      run: |
-        echo "Setting up kubeconfig"
-        mkdir -p $HOME/.kube
-        minikube update-context
+
+    # - name: Start Minikube
+    #   run: |
+    #     minikube start --driver=docker --wait=all
+    #     minikube addons enable ingress
+
+    # - name: Configure kubectl to use Minikube context
+    #   run: |
+    #     echo "Setting up kubeconfig"
+    #     mkdir -p $HOME/.kube
+    #     minikube update-context
     
     # - name: Configure kubectl
     #   run: |
