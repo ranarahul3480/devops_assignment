@@ -34,16 +34,49 @@ jobs:
       run: |
         docker push ${{ secrets.DOCKER_USERNAME }}/flask-app:latest
 
-    - name: Set up kubectl
-      uses: azure/setup-kubectl@v3
-      with:
-        version: 'latest'
+    # - name: Set up kubectl
+    #   uses: azure/setup-kubectl@v3
+    #   with:
+    #     version: 'latest'
 
-    - name: Set up Kubeconfig
+    # - name: Set up Kubeconfig
+    #   run: |
+    #     mkdir -p $HOME/.kube
+    #     echo "${{ secrets.KUBECONFIG_B64 }}" | base64 --decode > $HOME/.kube/config
+
+    # - name: Deploy to Kubernetes using Helm
+    #   run: |
+    #     helm upgrade --install flask-app ./charts/flask-app --namespace default
+
+    - name: Install Minikube
       run: |
+        curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+    - name: Start Minikube
+      run: |
+        minikube start --driver=docker --wait=all
+        minikube addons enable ingress
+
+    - name: Configure kubectl
+      run: |
+        echo "Setting up kubeconfig"
         mkdir -p $HOME/.kube
-        echo "${{ secrets.KUBECONFIG_B64 }}" | base64 --decode > $HOME/.kube/config
+        cp $HOME/.kube/config $HOME/.kube/config.bak || true
+        minikube kubeconfig > $HOME/.kube/config
 
-    - name: Deploy to Kubernetes using Helm
+    - name: Install Helm
       run: |
-        helm upgrade --install flask-app ./charts/flask-app --namespace default
+        curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+    - name: Deploy App with Helm
+      run: |
+        helm upgrade --install flask-app ./charts/flask-app --namespace default --create-namespace
+
+    - name: Wait for Deployment
+      run: |
+        kubectl rollout status deployment/flask-app -n default --timeout=90s
+
+    - name: Get Service Info
+      run: |
+        minikube service list
