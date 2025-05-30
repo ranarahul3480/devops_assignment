@@ -88,14 +88,20 @@ jobs:
       run: |
         helm upgrade --install flask-app ./charts/flask-app --namespace default --create-namespace
 
-    - name: Check Pods
-      run: |
-        kubectl get pods -n default
-        kubectl get svc -A
-
     - name: Wait for Deployment
       run: |
         kubectl rollout status deployment/flask-app -n default --timeout=600s
+
+    # - name: Pause for 2 minutes
+    #   run: sleep 120
+
+    - name: Check Pods
+      run: |
+        kubectl get pods -n default
+
+    - name: Check service
+      run: |
+        kubectl get svc -A
 
     - name: Get Service Info
       run: |
