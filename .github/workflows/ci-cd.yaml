@@ -58,12 +58,18 @@ jobs:
         minikube start --driver=docker --wait=all
         minikube addons enable ingress
 
-    - name: Configure kubectl
+    - name: Configure kubectl to use Minikube context
       run: |
         echo "Setting up kubeconfig"
         mkdir -p $HOME/.kube
-        cp $HOME/.kube/config $HOME/.kube/config.bak || true
-        minikube kubeconfig > $HOME/.kube/config
+        minikube update-context
+    
+    # - name: Configure kubectl
+    #   run: |
+    #     echo "Setting up kubeconfig"
+    #     mkdir -p $HOME/.kube
+    #     cp $HOME/.kube/config $HOME/.kube/config.bak || true
+    #     minikube kubeconfig > $HOME/.kube/config
 
     - name: Install Helm
       run: |
