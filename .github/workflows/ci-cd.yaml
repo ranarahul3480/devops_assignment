@@ -60,7 +60,11 @@ jobs:
         minikube start --driver=docker --wait=all
         minikube addons enable ingress
         minikube update-context
-
+        
+    - name: Wait for Ingress Controller to be Ready
+      run: |
+        echo "Waiting for ingress-nginx-controller to become ready..."
+        kubectl rollout status deployment/ingress-nginx-controller -n ingress-nginx --timeout=120s
 
     # - name: Start Minikube
     #   run: |
