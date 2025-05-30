@@ -60,7 +60,7 @@ jobs:
         minikube start --driver=docker --wait=all
         minikube addons enable ingress
         minikube update-context
-        
+
     - name: Wait for Ingress Controller to be Ready
       run: |
         echo "Waiting for ingress-nginx-controller to become ready..."
@@ -83,6 +83,11 @@ jobs:
     #     mkdir -p $HOME/.kube
     #     cp $HOME/.kube/config $HOME/.kube/config.bak || true
     #     minikube kubeconfig > $HOME/.kube/config
+
+    - name: Cleanup Before Helm Install
+      run: |
+        kubectl delete ingress flask-app --ignore-not-found
+        helm uninstall flask-app || true
 
     - name: Install Helm
       run: |
