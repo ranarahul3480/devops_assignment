@@ -90,7 +90,7 @@ jobs:
 
     - name: Wait for Deployment
       run: |
-        kubectl rollout status deployment/flask-app -n default --timeout=90s
+        kubectl rollout status deployment/flask-app -n default --timeout=120s
 
     - name: Get Service Info
       run: |
