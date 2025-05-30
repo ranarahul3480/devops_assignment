@@ -90,7 +90,8 @@ jobs:
 
     - name: Check Pods
       run: |
-        kubectl get pods -A
+        kubectl get pods -n default
+        kubectl get svc -A
 
     - name: Wait for Deployment
       run: |
