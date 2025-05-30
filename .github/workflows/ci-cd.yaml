@@ -84,9 +84,12 @@ jobs:
     #     cp $HOME/.kube/config $HOME/.kube/config.bak || true
     #     minikube kubeconfig > $HOME/.kube/config
 
-    - name: Cleanup Before Helm Install
+    - name: Delete Existing Ingress (if any)
       run: |
         kubectl delete ingress flask-app --ignore-not-found
+
+    - name: Remove Helm Release (if exists)
+      run: |
         helm uninstall flask-app || true
 
     - name: Install Helm
