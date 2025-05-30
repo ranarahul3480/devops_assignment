@@ -1,5 +1,5 @@
 image:
-  repository: <your-dockerhub-username>/flask-app
+  repository: ranarahul3480/flask-app
   tag: latest
 
 resources:
