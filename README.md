@@ -63,3 +63,4 @@ devops_assignment/
 - Scalability: Add HPA (Horizontal Pod Autoscaler).
 - Implement alerting (Slack/email/Webhook)
 - Use ArgoCD or Flux for GitOps-style deployment
+  
