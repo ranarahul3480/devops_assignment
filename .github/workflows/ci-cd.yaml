@@ -75,8 +75,9 @@ jobs:
   deploy_to_kubernetes:
     runs-on: self-hosted
     needs: 
-      - Helm-installation
+      - Security-check
       - Minikube-install-and-configure
+      - Helm-installation
 
     steps:
     - name: Deploy App with Helm
