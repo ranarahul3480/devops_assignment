@@ -56,9 +56,9 @@ jobs:
         echo "Waiting for ingress-nginx-controller to become ready..."
         kubectl rollout status deployment/ingress-nginx-controller -n ingress-nginx --timeout=120s
 
-    - name: Delete Existing Ingress (if any)
-      run: |
-        kubectl delete ingress flask-app --ignore-not-found
+    # - name: Delete Existing Ingress (if any)
+    #   run: |
+    #     kubectl delete ingress flask-app --ignore-not-found
   
   Helm-installation:
     runs-on: self-hosted
