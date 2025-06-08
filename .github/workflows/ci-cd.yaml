@@ -50,8 +50,6 @@ jobs:
         minikube start --driver=docker --wait=all
         minikube addons enable ingress
         minikube update-context
-        minikube tunnel
-
 
     - name: Wait for Ingress Controller to be Ready
       run: |
