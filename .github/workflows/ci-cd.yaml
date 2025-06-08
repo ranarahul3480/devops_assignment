@@ -41,7 +41,6 @@ jobs:
             
   Minikube-install-and-configure:
     runs-on: self-hosted
-    needs: Security-check
 
     steps:
     - name: Install and Configure Minikube
@@ -63,7 +62,6 @@ jobs:
   
   Helm-installation:
     runs-on: self-hosted
-    needs: Minikube-install-and-configure
 
     steps:
     - name: Remove Helm Release (if exists)
@@ -76,7 +74,9 @@ jobs:
 
   deploy_to_kubernetes:
     runs-on: self-hosted
-    needs: Helm-installation
+    needs: 
+      - Helm-installation
+      - Minikube-install-and-configure
 
     steps:
     - name: Deploy App with Helm
